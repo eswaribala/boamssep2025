@@ -2,12 +2,17 @@ package com.boa.userservice.services;
 
 import com.boa.userservice.dtos.CreateUserRequest;
 import com.boa.userservice.dtos.UpdateUserRequestDTO;
+import com.boa.userservice.exceptions.UserNotFoundExcepion;
 import com.boa.userservice.models.FullName;
+import com.boa.userservice.models.Role;
 import com.boa.userservice.models.User;
+import com.boa.userservice.repositories.RoleRepository;
 import com.boa.userservice.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jmx.export.notification.UnableToSendNotificationException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -17,18 +22,26 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
 
+
     @Override
     public User createUser(CreateUserRequest createUserRequest) {
 
+        List<Role> roles = new ArrayList<>();
+      if(createUserRequest.getRoles().isEmpty()){
+          roles=null;
+
+      }else
+          roles=createUserRequest.getRoles();
 
        User user = User.builder()
                .fullName(FullName.builder()
                        .firstName(createUserRequest.getFullNameDTO().getFirstName())
                        .lastName(createUserRequest.getFullNameDTO().getLastName())
                        .middleName(createUserRequest.getFullNameDTO().getMidddleName())
+
                        .build())
                .email(createUserRequest.getEmail())
-               .roles(null)
+               .roles(roles)
                .build();
 
         return this.userRepository.save(user);
@@ -36,21 +49,33 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> getAllUsers() {
-        return List.of();
+        return this.userRepository.findAll();
     }
 
     @Override
     public User getUserById(String id) {
-        return null;
+        return this.userRepository.findById(id)
+                .orElseThrow(()->new UnableToSendNotificationException(id));
     }
 
     @Override
     public boolean deleteUserById(String id) {
-        return false;
+        boolean status=false;
+        User user=getUserById(id);
+        if(user!=null){
+            this.userRepository.delete(user);
+            status=true;
+        }
+        return status;
     }
 
     @Override
     public User updateUser(UpdateUserRequestDTO updateUserRequestDTO) {
-        return null;
+        User  user=getUserById(updateUserRequestDTO.getUserId());
+        if(user!=null){
+            user.setEmail(updateUserRequestDTO.getEmail());
+            return  this.userRepository.save(user);
+        }else
+            throw new UserNotFoundExcepion(updateUserRequestDTO.getUserId());
     }
 }
