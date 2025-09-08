@@ -10,7 +10,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Component
+@Component("Trade-User")
 public class User {
 
     private long userId;
