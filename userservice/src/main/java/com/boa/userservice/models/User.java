@@ -15,8 +15,8 @@ import java.util.List;
 @NoArgsConstructor
 public class User {
 
-    @Id
-    @UserId
+    @Id //primarkey
+    @UserId // auto generation
     @Column(name="user_id")
     private String userId;
 

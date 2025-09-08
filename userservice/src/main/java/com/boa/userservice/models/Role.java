@@ -12,8 +12,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Role {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id //primary key
+    @GeneratedValue(strategy = GenerationType.AUTO) //sequence
     @Column(name="role_id")
     private long roleId;
 
