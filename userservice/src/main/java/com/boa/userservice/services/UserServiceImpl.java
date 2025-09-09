@@ -36,10 +36,14 @@ public class UserServiceImpl implements UserService {
           roles=null;
 
       }else {
+          //transient
           roles = createUserRequest.getRoles();
           //persistent role
-          persisitedRoles=roles.stream().map(role->roleRepository.findById(role.getRoleId())
-                  .orElseThrow(()->new RoleNotFoundException(role.getRoleId()))).collect(Collectors.toList());
+          //table level
+          persisitedRoles=roles.stream()
+                  .map(role->roleRepository.findById(role.getRoleId())
+                  .orElseThrow(()->new RoleNotFoundException(role.getRoleId())))
+                  .collect(Collectors.toList());
 
 
       }
