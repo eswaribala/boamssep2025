@@ -88,7 +88,7 @@ public class RoleController {
         }else
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new GenericResponse("Role not delete d"+id));
 
-          
+
 
     }
 
