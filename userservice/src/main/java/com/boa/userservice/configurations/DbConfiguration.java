@@ -31,12 +31,12 @@ public class DbConfiguration {
     @Bean
     public DataSource createDataSource(){
 
-        System.out.println(environmentConfiguration.getDirvername());
+        System.out.println(environmentConfiguration.getDrivername());
         System.out.println(environmentConfiguration.getMysql_userName());
         System.out.println(environmentConfiguration.getPassword());
         System.out.println(environmentConfiguration.getUrl());
         dataSourceBuilder = DataSourceBuilder.create();
-        dataSourceBuilder.driverClassName(environmentConfiguration.getDirvername());
+        dataSourceBuilder.driverClassName(environmentConfiguration.getDrivername());
         dataSourceBuilder.url(environmentConfiguration.getUrl());
         dataSourceBuilder.username(environmentConfiguration.getMysql_userName());
         dataSourceBuilder.password(environmentConfiguration.getPassword());
