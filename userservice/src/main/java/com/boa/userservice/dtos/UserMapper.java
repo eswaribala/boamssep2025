@@ -3,9 +3,17 @@ package com.boa.userservice.dtos;
 import com.boa.userservice.models.Role;
 import com.boa.userservice.models.User;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
-@Mapper(componentModel = "spring")
+import java.util.List;
+
+@Mapper(componentModel = "spring",uses = { FullNameMapper.class })
 public interface UserMapper{
-    CreateUserRequest toDTO(User user);
-    CreateRoleRequest toDTO(Role role);
+    @Mapping(source = "userId", target = "id")
+    @Mapping(source = "fullName", target = "fullNameDTO")
+    UserDTO toDTO(User user);
+    RoleDTO toDTO(Role role);
+    List<RoleDTO> toDTOs(List<Role> roles);
+    List<UserDTO> toUserDTOs(List<User> users);
+
 }
