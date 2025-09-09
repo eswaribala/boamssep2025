@@ -4,6 +4,8 @@ import com.boa.userservice.dtos.*;
 import com.boa.userservice.models.Role;
 import com.boa.userservice.models.User;
 import com.boa.userservice.services.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,7 @@ import java.util.List;
 @RequestMapping("users")
 public class UserController {
 
+    private Logger logger = LoggerFactory.getLogger(UserController.class);
     @Autowired
     private UserService userService;
 
@@ -40,6 +43,8 @@ public class UserController {
         List<UserDTO> userDTOs=null;
         if(users!=null){
             userDTOs=userMapper.toUserDTOs(users);
+            logger.debug("userDTOs: "+userDTOs);
+            logger.info("userDTOs: "+userDTOs);
             return ResponseEntity.status(HttpStatus.OK).body(new GenericResponse(userDTOs));
         }else
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new GenericResponse("users not found"));

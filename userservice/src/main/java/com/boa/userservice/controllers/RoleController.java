@@ -3,6 +3,8 @@ package com.boa.userservice.controllers;
 import com.boa.userservice.dtos.*;
 import com.boa.userservice.models.Role;
 import com.boa.userservice.services.RoleService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +16,7 @@ import java.util.List;
 @RequestMapping("roles")
 public class RoleController {
 
+    private static final Logger logger = LoggerFactory.getLogger(RoleController.class);
     @Autowired
     private RoleService roleService;
     @Autowired
@@ -41,6 +44,8 @@ public class RoleController {
         List<RoleDTO> roleDTOs=null;
         if(roles!=null){
            roleDTOs=userMapper.toDTOs(roles);
+           logger.debug("roleDTOs: "+roleDTOs);
+           logger.info("roleDTOs: "+roleDTOs);
            return ResponseEntity.status(HttpStatus.OK).body(new GenericResponse(roleDTOs));
         }else
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new GenericResponse("Roles not found"));
