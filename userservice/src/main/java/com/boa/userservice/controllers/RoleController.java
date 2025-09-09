@@ -1,9 +1,6 @@
 package com.boa.userservice.controllers;
 
-import com.boa.userservice.dtos.CreateRoleRequest;
-import com.boa.userservice.dtos.GenericResponse;
-import com.boa.userservice.dtos.RoleDTO;
-import com.boa.userservice.dtos.UserMapper;
+import com.boa.userservice.dtos.*;
 import com.boa.userservice.models.Role;
 import com.boa.userservice.services.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +45,50 @@ public class RoleController {
         }else
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new GenericResponse("Roles not found"));
 
+
+    }
+
+    //get role by id
+
+    @GetMapping("/v1.0/{id}")
+    public ResponseEntity<GenericResponse> getRoleById(@PathVariable("id") Long id){
+
+        Role role=this.roleService.getRole(id);
+        RoleDTO roleDTO=null;
+        if(role!=null){
+            roleDTO=userMapper.toDTO(role);
+            return ResponseEntity.status(HttpStatus.OK).body(new GenericResponse(roleDTO));
+        }else
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new GenericResponse("Role not found"));
+
+
+    }
+
+
+    @PutMapping("/v1.0")
+    public ResponseEntity<GenericResponse> updateRoleById(@RequestParam("id") Long id, @RequestParam("roleName") String newRoleName){
+
+        UpdateRoleRequestDTO  updateRoleRequestDTO=UpdateRoleRequestDTO
+                .builder()
+                .roleId(id)
+                .roleName(newRoleName).build();
+        Role role=this.roleService.updateRole(updateRoleRequestDTO);
+        RoleDTO roleDTO=null;
+        if(role!=null){
+            roleDTO=userMapper.toDTO(role);
+            return ResponseEntity.status(HttpStatus.OK).body(new GenericResponse(roleDTO));
+        }else
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new GenericResponse("Role not updated"));
+    }
+    @DeleteMapping("/v1.0/{id}")
+    public ResponseEntity<GenericResponse> deleteRoleById(@PathVariable("id") Long id){
+
+        if(this.roleService.deleteRole(id)){
+            return ResponseEntity.status(HttpStatus.OK).body(new GenericResponse("Role deleted "+id));
+        }else
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new GenericResponse("Role not delete d"+id));
+
+          
 
     }
 
