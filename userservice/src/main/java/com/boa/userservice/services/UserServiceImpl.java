@@ -2,6 +2,7 @@ package com.boa.userservice.services;
 
 import com.boa.userservice.dtos.CreateUserRequest;
 import com.boa.userservice.dtos.UpdateUserRequestDTO;
+import com.boa.userservice.exceptions.RoleNotFoundException;
 import com.boa.userservice.exceptions.UserNotFoundExcepion;
 import com.boa.userservice.models.FullName;
 import com.boa.userservice.models.Role;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -21,28 +23,54 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private RoleRepository roleRepository;
 
 
     @Override
     public User createUser(CreateUserRequest createUserRequest) {
 
         List<Role> roles = new ArrayList<>();
+        List<Role> persisitedRoles=null;
       if(createUserRequest.getRoles().isEmpty()){
           roles=null;
 
-      }else
-          roles=createUserRequest.getRoles();
+      }else {
+          roles = createUserRequest.getRoles();
+          //persistent role
+          persisitedRoles=roles.stream().map(role->roleRepository.findById(role.getRoleId())
+                  .orElseThrow(()->new RoleNotFoundException(role.getRoleId()))).collect(Collectors.toList());
 
-       User user = User.builder()
-               .fullName(FullName.builder()
-                       .firstName(createUserRequest.getFullNameDTO().getFirstName())
-                       .lastName(createUserRequest.getFullNameDTO().getLastName())
-                       .middleName(createUserRequest.getFullNameDTO().getMidddleName())
 
-                       .build())
-               .email(createUserRequest.getEmail())
-               .roles(roles)
-               .build();
+      }
+
+      User user=null;
+
+      if(persisitedRoles==null){
+          user = User.builder()
+                  .fullName(FullName.builder()
+                          .firstName(createUserRequest.getFullNameDTO().getFirstName())
+                          .lastName(createUserRequest.getFullNameDTO().getLastName())
+                          .middleName(createUserRequest.getFullNameDTO().getMidddleName())
+
+                          .build())
+                  .email(createUserRequest.getEmail())
+                  .roles(null)
+                  .build();
+      }else {
+
+
+          user = User.builder()
+                  .fullName(FullName.builder()
+                          .firstName(createUserRequest.getFullNameDTO().getFirstName())
+                          .lastName(createUserRequest.getFullNameDTO().getLastName())
+                          .middleName(createUserRequest.getFullNameDTO().getMidddleName())
+
+                          .build())
+                  .email(createUserRequest.getEmail())
+                  .roles(persisitedRoles)
+                  .build();
+      }
 
         return this.userRepository.save(user);
     }
