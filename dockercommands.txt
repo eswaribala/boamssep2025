@@ -20,6 +20,10 @@ docker network create bofanetwork
 #create the containers
 docker-compose up
 
+#to scale the instances
+#trader-app instance name
+docker-compose up --scale trader-app=3 -d
+
 #create postgres db
 docker exec -it <containerid>  psql -U postgres
 #to list the databases
