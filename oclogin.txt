@@ -1,0 +1,8 @@
+IP: 10.0.1.77
+Username: rps
+password: VMware1!
+
+To login as a regular user, run 'oc login -u developer -p developer https://api.crc.testing:6443'.
+To login as an admin, run 'oc login -u kubeadmin -p WT2Ya-ye3fw-fmmhP-G4sxp https://api.crc.testing:6443'
+
+export PATH="/home/rps/.crc/bin/oc:$PATH"
