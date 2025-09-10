@@ -16,7 +16,7 @@ docker exec -it <containerid> bin/bash
 #to docker build the customer api
 docker build -f dockerfile -t customerapi .
 #create docker network
-docker network create niitnetwork
+docker network create bofanetwork
 #create the containers
 docker-compose up
 
