@@ -41,10 +41,16 @@ public class UserController {
 
         List<User> users=this.userService.getAllUsers();
         List<UserDTO> userDTOs=null;
+        logger.info("email: {}", "eswari@gmail.com");
+
         if(users!=null){
             userDTOs=userMapper.toUserDTOs(users);
-            logger.debug("userDTOs: "+userDTOs);
-            logger.info("userDTOs: "+userDTOs);
+            userDTOs.stream().forEach((userDTO)->{
+                logger.info(userDTO.fullNameDTO().getFirstName());
+
+                logger.info(userDTO.email());
+                logger.debug(userDTO.email());
+            });
             return ResponseEntity.status(HttpStatus.OK).body(new GenericResponse(userDTOs));
         }else
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new GenericResponse("users not found"));

@@ -1,47 +1,29 @@
-<configuration>
+<configuration debug="true">
+    <statusListener class="ch.qos.logback.core.status.OnConsoleStatusListener"/>
 
-    <property name="HOME_LOG" value="logs/user.log"/>
+   <conversionRule conversionWord="maskEmail"  converterClass="com.boa.userservice.logging.MaskEmailConverter"/>
 
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
-        <layout class="ch.qos.logback.classic.PatternLayout">
-            <Pattern>
-                %d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n
-            </Pattern>
-        </layout>
-    </appender>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
 
-    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
-        <file>${HOME_LOG}</file>
-        <append>true</append>
-        <immediateFlush>true</immediateFlush>
-        <encoder>
-            <pattern>%d %p %c{1} [%t] %m%n</pattern>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{36} - %maskEmail%n</pattern>
         </encoder>
     </appender>
 
-    <!--<appender name="http" class="com.splunk.logging.HttpEventCollectorLogbackAppender">
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <file>logs/user.log</file>
+        <append>true</append>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{36} - %maskEmail%n</pattern>
+        </encoder>
+    </appender>
 
-        <Http name="SplunkAppender" url="http://localhost:8000/services/collector">
-            <Property name="token" value="573425b7-21c5-4a93-a428-aa3895a1f799" />
-            <PatternLayout pattern="%m%n" />
-        </Http>
-    </appender>-->
-    <logger name="com.boa" level="INFO" >
+    <logger name="com.boa" level="DEBUG" additivity="false">
         <appender-ref ref="CONSOLE"/>
         <appender-ref ref="FILE"/>
-
-        <!-- <appender-ref ref="http"/>-->
     </logger>
 
-
-    <logger name="com.boa" level="debug" additivity="false">
-        <appender-ref ref="CONSOLE"/>
-        <appender-ref ref="FILE"/>
-
-    </logger>
-
-    <root level="error">
+    <root level="ERROR">
         <appender-ref ref="CONSOLE"/>
     </root>
-
 </configuration>
