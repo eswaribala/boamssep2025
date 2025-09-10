@@ -158,3 +158,19 @@
 2025-09-10 10:35:29.448 INFO  [http-nio-7070-exec-1] c.b.u.controllers.UserController - eswari
 2025-09-10 10:35:29.448 INFO  [http-nio-7070-exec-1] c.b.u.controllers.UserController - e****i@gmail.com
 2025-09-10 10:35:29.448 DEBUG [http-nio-7070-exec-1] c.b.u.controllers.UserController - e****i@gmail.com
+2025-09-10 10:42:00.541 INFO  [restartedMain] c.b.u.UserserviceApplication - * **on * java 21.0.5 with pid 13860 (e:\*2025ws\*e\*\* * by * in e:\*2025ws\*e)
+2025-09-10 10:42:00.544 DEBUG [restartedMain] c.b.u.UserserviceApplication - * with * boot v3.3.4, * v6.1.13
+2025-09-10 10:42:00.545 INFO  [restartedMain] c.b.u.UserserviceApplication - the * 1 * is *: "dev"
+2025-09-10 10:42:07.353 INFO  [restartedMain] c.b.u.UserserviceApplication - * **on in 7.22 * (* * for 7.967)
+2025-09-10 10:42:20.197 INFO  [http-nio-7070-exec-1] c.b.u.controllers.UserController - *: *
+2025-09-10 10:42:20.199 INFO  [http-nio-7070-exec-1] c.b.u.controllers.UserController - *
+2025-09-10 10:42:20.199 INFO  [http-nio-7070-exec-1] c.b.u.controllers.UserController - *
+2025-09-10 10:42:20.199 DEBUG [http-nio-7070-exec-1] c.b.u.controllers.UserController - *
+2025-09-10 10:43:39.660 INFO  [restartedMain] c.b.u.UserserviceApplication - *** ******on *** java 21.0.5 with pid 27544 (e:\***2025ws\***e\***\*** *** by *** in e:\***2025ws\***e)
+2025-09-10 10:43:39.663 DEBUG [restartedMain] c.b.u.UserserviceApplication - *** with *** boot v3.3.4, *** v6.1.13
+2025-09-10 10:43:39.665 INFO  [restartedMain] c.b.u.UserserviceApplication - the *** 1 *** is ***: "dev"
+2025-09-10 10:43:46.688 INFO  [restartedMain] c.b.u.UserserviceApplication - *** ******on in 7.408 *** (*** *** for 8.255)
+2025-09-10 10:43:47.092 INFO  [http-nio-7070-exec-1] c.b.u.controllers.UserController - ***: ****@***
+2025-09-10 10:43:47.094 INFO  [http-nio-7070-exec-1] c.b.u.controllers.UserController - ***
+2025-09-10 10:43:47.094 INFO  [http-nio-7070-exec-1] c.b.u.controllers.UserController - ****@***
+2025-09-10 10:43:47.094 DEBUG [http-nio-7070-exec-1] c.b.u.controllers.UserController - ****@***

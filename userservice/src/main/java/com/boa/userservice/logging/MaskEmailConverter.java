@@ -16,15 +16,22 @@ public class MaskEmailConverter extends ClassicConverter {
     private static final Pattern NAME=Pattern.compile("[A-Za-z]{5,10}");
     @Override
     public String convert(ILoggingEvent event) {
-        String in = event.getFormattedMessage();
+
+
+       String in = event.getFormattedMessage();
         if (in == null || in.isEmpty()) return in;
+
+        String masked=EMAIL.matcher(in).replaceAll("****@***").toLowerCase();
+         masked=NAME.matcher(masked).replaceAll("***").toLowerCase();
+         return masked;
+         /*
         Matcher m = EMAIL.matcher(in);
         StringBuffer sb = new StringBuffer();
         while (m.find()) {
             String first = m.group(1), mid = m.group(2), last = m.group(3), dom = m.group(4);
             m.appendReplacement(sb, first + mid.replaceAll(".", "*") + last + "@" + dom);
         }
-        m.appendTail(sb);
+        m.appendTail(sb);*/
 
       // Matcher m1 = NAME.matcher(in);
 
@@ -32,6 +39,6 @@ public class MaskEmailConverter extends ClassicConverter {
         //m1.group().replaceAll(NAME,"*");
        // m.appendTail(sb);
 
-        return sb.toString();
+       // return sb.toString();
     }
 }
