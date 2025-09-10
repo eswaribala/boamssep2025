@@ -1,0 +1,41 @@
+type Role {
+  roleId: ID!
+  roleName: String!
+}
+
+type FullName {
+  firstName: String!
+  lastName: String!
+  middleName: String
+}
+
+type User {
+  userId: ID!
+  fullName: FullName!
+  email: String!
+  roles: [Role!]!
+}
+
+"Queries"
+type Query {
+  users: [User!]!
+  userById(id: ID!): User
+  roles: [Role!]!
+  roleById(id: ID!): Role
+}
+
+"Inputs"
+input FullNameInput {
+  firstName: String!
+  lastName: String!
+  middleName: String
+}
+
+"Mutations"
+type Mutation {
+  createRole(roleName: String!): Role!
+  createUser(fullName: FullNameInput!, email: String!, roleIds: [ID!]): User!
+  assignRolesToUser(userId: ID!, roleIds: [ID!]!): User!
+  updateUserEmail(userId: ID!, email: String!): User!
+  deleteUser(userId: ID!): Boolean!
+}
