@@ -174,3 +174,41 @@
 2025-09-10 10:43:47.094 INFO  [http-nio-7070-exec-1] c.b.u.controllers.UserController - ***
 2025-09-10 10:43:47.094 INFO  [http-nio-7070-exec-1] c.b.u.controllers.UserController - ****@***
 2025-09-10 10:43:47.094 DEBUG [http-nio-7070-exec-1] c.b.u.controllers.UserController - ****@***
+2025-09-10 10:52:33.391 INFO  [restartedMain] c.b.u.UserserviceApplication - *** ******on *** java 21.0.5 with pid 32492 (e:\***2025ws\***e\***\*** *** by *** in e:\***2025ws\***e)
+2025-09-10 10:52:33.397 DEBUG [restartedMain] c.b.u.UserserviceApplication - *** with *** boot v3.3.4, *** v6.1.13
+2025-09-10 10:52:33.398 INFO  [restartedMain] c.b.u.UserserviceApplication - the *** 1 *** is ***: "dev"
+2025-09-10 10:52:39.254 INFO  [restartedMain] c.b.u.UserserviceApplication - *** ******on in 6.335 *** (*** *** for 7.199)
+2025-09-10 10:52:45.687 INFO  [http-nio-7070-exec-2] c.b.u.controllers.UserController - ***: ****@***
+2025-09-10 10:52:45.689 INFO  [http-nio-7070-exec-2] c.b.u.controllers.UserController - ***
+2025-09-10 10:52:45.690 INFO  [http-nio-7070-exec-2] c.b.u.controllers.UserController - ****@***
+2025-09-10 10:52:45.690 DEBUG [http-nio-7070-exec-2] c.b.u.controllers.UserController - ****@***
+2025-09-10 10:53:57.468 INFO  [restartedMain] c.b.u.UserserviceApplication - *** ******on *** java 21.0.5 with pid 17268 (e:\***2025ws\***e\***\*** *** by *** in e:\***2025ws\***e)
+2025-09-10 10:53:57.471 DEBUG [restartedMain] c.b.u.UserserviceApplication - *** with *** boot v3.3.4, *** v6.1.13
+2025-09-10 10:53:57.471 INFO  [restartedMain] c.b.u.UserserviceApplication - the *** 1 *** is ***: "dev"
+2025-09-10 10:54:04.042 INFO  [restartedMain] c.b.u.UserserviceApplication - *** ******on in 6.933 *** (*** *** for 7.751)
+2025-09-10 10:54:05.768 INFO  [http-nio-7070-exec-1] c.b.u.controllers.UserController - ***: ****@***
+2025-09-10 10:54:05.771 INFO  [http-nio-7070-exec-1] c.b.u.controllers.UserController - ***
+2025-09-10 10:54:05.771 INFO  [http-nio-7070-exec-1] c.b.u.controllers.UserController - ****@***
+2025-09-10 10:54:05.771 DEBUG [http-nio-7070-exec-1] c.b.u.controllers.UserController - ****@***
+2025-09-10 10:54:40.620 INFO  [restartedMain] c.b.u.UserserviceApplication - *** ******on *** java 21.0.5 with pid 17268 (e:\***2025ws\***e\***\*** *** by *** in e:\***2025ws\***e)
+2025-09-10 10:54:40.620 DEBUG [restartedMain] c.b.u.UserserviceApplication - *** with *** boot v3.3.4, *** v6.1.13
+2025-09-10 10:54:40.620 INFO  [restartedMain] c.b.u.UserserviceApplication - the *** 1 *** is ***: "dev"
+2025-09-10 10:54:44.794 INFO  [restartedMain] c.b.u.UserserviceApplication - *** ******on *** java 21.0.5 with pid 17268 (e:\***2025ws\***e\***\*** *** by *** in e:\***2025ws\***e)
+2025-09-10 10:54:44.796 DEBUG [restartedMain] c.b.u.UserserviceApplication - *** with *** boot v3.3.4, *** v6.1.13
+2025-09-10 10:54:44.796 INFO  [restartedMain] c.b.u.UserserviceApplication - the *** 1 *** is ***: "dev"
+2025-09-10 10:54:46.658 INFO  [restartedMain] c.b.u.UserserviceApplication - *** ******on in 1.908 *** (*** *** for 50.368)
+2025-09-10 10:54:57.157 INFO  [restartedMain] c.b.u.UserserviceApplication - *** ******on *** java 21.0.5 with pid 32756 (e:\***2025ws\***e\***\*** *** by *** in e:\***2025ws\***e)
+2025-09-10 10:54:57.160 DEBUG [restartedMain] c.b.u.UserserviceApplication - *** with *** boot v3.3.4, *** v6.1.13
+2025-09-10 10:54:57.162 INFO  [restartedMain] c.b.u.UserserviceApplication - the *** 1 *** is ***: "dev"
+2025-09-10 10:55:03.169 INFO  [http-nio-7070-exec-1] c.b.u.controllers.UserController - ***: ****@***
+2025-09-10 10:55:03.170 INFO  [http-nio-7070-exec-1] c.b.u.controllers.UserController - ***
+2025-09-10 10:55:03.171 INFO  [http-nio-7070-exec-1] c.b.u.controllers.UserController - ****@***
+2025-09-10 10:55:03.171 DEBUG [http-nio-7070-exec-1] c.b.u.controllers.UserController - ****@***
+2025-09-10 10:55:26.186 INFO  [restartedMain] c.b.u.UserserviceApplication - *** ******on *** java 21.0.5 with pid 25820 (e:\***2025ws\***e\***\*** *** by *** in e:\***2025ws\***e)
+2025-09-10 10:55:26.190 DEBUG [restartedMain] c.b.u.UserserviceApplication - *** with *** boot v3.3.4, *** v6.1.13
+2025-09-10 10:55:26.191 INFO  [restartedMain] c.b.u.UserserviceApplication - the *** 1 *** is ***: "dev"
+2025-09-10 10:55:33.218 INFO  [restartedMain] c.b.u.UserserviceApplication - *** ******on in 7.404 *** (*** *** for 8.398)
+2025-09-10 10:55:41.154 INFO  [http-nio-7070-exec-1] c.b.u.controllers.UserController - ***: ****@***
+2025-09-10 10:55:41.158 INFO  [http-nio-7070-exec-1] c.b.u.controllers.UserController - ***
+2025-09-10 10:55:41.159 INFO  [http-nio-7070-exec-1] c.b.u.controllers.UserController - ****@***
+2025-09-10 10:55:41.159 DEBUG [http-nio-7070-exec-1] c.b.u.controllers.UserController - ****@***
