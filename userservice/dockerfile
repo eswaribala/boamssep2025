@@ -10,4 +10,4 @@ LABEL version=1.0-SNAPSHOT
 COPY --from=build target/userservice-0.0.1-SNAPSHOT.jar userservice-0.0.1-SNAPSHOT.jar
 EXPOSE 7076
 #ENTRYPOINT ["java","-jar","customerapi-0.0.1-SNAPSHOT.jar"]
-ENTRYPOINT java -Dspring.profiles.active=prod -jar cuserservice-0.0.1-SNAPSHOT.jar
+ENTRYPOINT java -Dspring.profiles.active=prod -jar userservice-0.0.1-SNAPSHOT.jar
