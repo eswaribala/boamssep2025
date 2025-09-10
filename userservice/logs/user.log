@@ -212,3 +212,19 @@
 2025-09-10 10:55:41.158 INFO  [http-nio-7070-exec-1] c.b.u.controllers.UserController - ***
 2025-09-10 10:55:41.159 INFO  [http-nio-7070-exec-1] c.b.u.controllers.UserController - ****@***
 2025-09-10 10:55:41.159 DEBUG [http-nio-7070-exec-1] c.b.u.controllers.UserController - ****@***
+2025-09-10 12:07:07.481 INFO  [restartedMain] c.b.u.UserserviceApplication - *** ******on *** java 21.0.5 with pid 36708 (e:\***2025ws\***e\***\*** *** by *** in e:\***2025ws\***e)
+2025-09-10 12:07:07.483 DEBUG [restartedMain] c.b.u.UserserviceApplication - *** with *** boot v3.3.4, *** v6.1.13
+2025-09-10 12:07:07.485 INFO  [restartedMain] c.b.u.UserserviceApplication - the *** 1 *** is ***: "dev"
+2025-09-10 12:07:14.930 INFO  [restartedMain] c.b.u.UserserviceApplication - *** ******on in 8.075 *** (*** *** for 9.875)
+2025-09-10 12:09:09.924 INFO  [main] c.b.u.UserserviceApplication - *** ******on *** java 21.0.5 with pid 37980 (e:\***2025ws\***e\***\*** *** by *** in e:\***2025ws\***e)
+2025-09-10 12:09:09.929 DEBUG [main] c.b.u.UserserviceApplication - *** with *** boot v3.3.4, *** v6.1.13
+2025-09-10 12:09:09.930 INFO  [main] c.b.u.UserserviceApplication - the *** 1 *** is ***: "dev"
+2025-09-10 12:09:18.832 INFO  [main] c.b.u.UserserviceApplication - *** ******on in 9.486 *** (*** *** for 11.412)
+2025-09-10 12:10:05.507 INFO  [main] c.b.u.UserserviceApplication - *** ******on *** java 21.0.5 with pid 38448 (e:\***2025ws\***e\***\*** *** by *** in e:\***2025ws\***e)
+2025-09-10 12:10:05.510 DEBUG [main] c.b.u.UserserviceApplication - *** with *** boot v3.3.4, *** v6.1.13
+2025-09-10 12:10:05.511 INFO  [main] c.b.u.UserserviceApplication - the *** 1 *** is ***: "dev"
+2025-09-10 12:10:13.919 INFO  [main] c.b.u.UserserviceApplication - *** ******on in 9.002 *** (*** *** for 10.124)
+2025-09-10 12:20:33.478 INFO  [main] c.b.u.UserserviceApplication - *** ******on *** java 21.0.5 with pid 4084 (e:\***2025ws\***e\***\*** *** by *** in e:\***2025ws\***e)
+2025-09-10 12:20:33.481 DEBUG [main] c.b.u.UserserviceApplication - *** with *** boot v3.3.4, *** v6.1.13
+2025-09-10 12:20:33.482 INFO  [main] c.b.u.UserserviceApplication - the *** 1 *** is ***: "dev"
+2025-09-10 12:20:43.298 INFO  [main] c.b.u.UserserviceApplication - *** ******on in 10.28 *** (*** *** for 11.224)
