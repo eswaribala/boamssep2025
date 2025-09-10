@@ -1,4 +1,5 @@
 package com.boa.userservice.configurations;
+/*
 
 import com.zaxxer.hikari.HikariDataSource;
 import jakarta.persistence.EntityManagerFactory;
@@ -23,25 +24,28 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
-@EnableConfigurationProperties(EnvironmentConfiguration.class)
+@EnableConfigurationProperties(VaultConfiguration.class)
 //@EnableTransactionManagement
 //@EnableJpaRepositories(basePackages = "com.boa")
 public class DbConfiguration {
 
-  /*  @Value("${drivername}")
+    @Value("${drivername}")
     private String driverName;
     @Value("${url}")
     private String url;
+    */
+/*
     @Value("${mysql_userName}")
     private String mysqlUserName;
     @Value("${password}")
-    private String password;*/
+    private String password;*//*
 
-    private final EnvironmentConfiguration environmentConfiguration;
+
+    private final VaultConfiguration vaultConfiguration;
     private DataSourceBuilder  dataSourceBuilder;
 
-    public DbConfiguration(EnvironmentConfiguration _environmentConfiguration) {
-        this.environmentConfiguration = _environmentConfiguration;
+    public DbConfiguration(VaultConfiguration _vaultConfiguration) {
+        this.vaultConfiguration = _vaultConfiguration;
     }
 
     @Bean
@@ -52,12 +56,13 @@ public class DbConfiguration {
        // System.out.println(environmentConfiguration.getPassword());
        // System.out.println(environmentConfiguration.getUrl());
         dataSourceBuilder = DataSourceBuilder.create();
-        dataSourceBuilder.driverClassName(environmentConfiguration.getDrivername());
-        dataSourceBuilder.url(environmentConfiguration.getUrl());
-        dataSourceBuilder.username(environmentConfiguration.getMysql_userName());
-        dataSourceBuilder.password(environmentConfiguration.getPassword());
+        dataSourceBuilder.driverClassName(driverName);
+        dataSourceBuilder.url(url);
+        dataSourceBuilder.username(vaultConfiguration.getMysqlusername());
+        dataSourceBuilder.password(vaultConfiguration.getMysqlpassword());
         return dataSourceBuilder.build();
     }
+*/
 /*
 
     // When app.active-schema=payment (default)
@@ -77,6 +82,8 @@ public class DbConfiguration {
     public DataSource loanDataSource() {
         return DataSourceBuilder.create().build();
     }
-*/
+*//*
+
 
 }
+*/
