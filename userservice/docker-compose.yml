@@ -8,6 +8,7 @@ services:
       - MYSQL_DATABASE=boatraderproddb
     volumes:
       - /data/mysql
+    networks: [bofanetwork]
     healthcheck:        
         interval: 30s
         timeout: 10s
@@ -30,6 +31,28 @@ services:
     ports:
        #- 8060-8070:7070
         - "7076-7078:7076"
+    networks: [bofanetwork]
+    environment:
+      #EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka
+
+
+      # Eureka client
+      EUREKA__CLIENT__SERVICEURL: http://host.docker.internal:8761/eureka/
+#      EUREKA__CLIENT__SHOULDFETCHREGISTRY: "true"
+#      EUREKA__CLIENT__SHOULDREGISTERWITHEUREKA: "true"
+#
+#      # Override what gets registered
+#      EUREKA__INSTANCE__APPNAME: userservice
+#      EUREKA__INSTANCE__HOSTNAME: userservice    # force Eureka to use "localhost"
+#      EUREKA__INSTANCE__NONSECUREPORT: "7076"      # advertise the HOST port
+#      EUREKA__INSTANCE__PREFERIPADDRESS: "false"
+#      # make it unique if you scale
+#      EUREKA__INSTANCE__INSTANCEID: "userservice-localhost:7076"
+#
+#      # optional but recommended so Eureka health links work from host:
+#      EUREKA__INSTANCE__STATUSPAGEURL: "http://localhost:7076/health"
+#      EUREKA__INSTANCE__HEALTHCHECKURL: "http://localhost:7076/health"
+
     volumes:
       - /data/compose-app
     #networks:
@@ -39,9 +62,8 @@ services:
 ### put all the networks here
 #networks:
   #boanetwork:
-networks: 
-  default: 
-    external: 
-      name: bofanetwork
+networks:
+  bofanetwork:
+    external: true
 
   
