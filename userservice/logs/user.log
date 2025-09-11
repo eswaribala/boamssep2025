@@ -4,3 +4,7 @@
 2025-09-11 16:28:14.943 INFO  [main] c.b.u.UserserviceApplication - *** ******on in 9.82 *** (*** *** for 11.444)
 2025-09-11 16:28:54.151 DEBUG [http-nio-7070-exec-10] c.b.u.controllers.RoleController - ***: []
 2025-09-11 16:28:54.152 INFO  [http-nio-7070-exec-10] c.b.u.controllers.RoleController - ***: []
+2025-09-11 16:44:47.867 INFO  [main] c.b.u.UserserviceApplication - *** ******on *** java 21.0.5 with pid 16996 (e:\***2025ws\***e\***\*** *** by *** in e:\***2025ws\***e)
+2025-09-11 16:44:47.871 DEBUG [main] c.b.u.UserserviceApplication - *** with *** boot v3.3.4, *** v6.1.13
+2025-09-11 16:44:47.872 INFO  [main] c.b.u.UserserviceApplication - the *** 1 *** is ***: "dev"
+2025-09-11 16:44:56.572 INFO  [main] c.b.u.UserserviceApplication - *** ******on in 9.258 *** (*** *** for 10.269)
