@@ -37,7 +37,7 @@ services:
 
 
       # Eureka client
-      #EUREKA__CLIENT__SERVICEURL: http://host.docker.internal:8761/eureka/
+      EUREKA__CLIENT__SERVICEURL: http://host.docker.internal:8761/eureka/
 #      EUREKA__CLIENT__SHOULDFETCHREGISTRY: "true"
 #      EUREKA__CLIENT__SHOULDREGISTERWITHEUREKA: "true"
 #

@@ -5,8 +5,11 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @Data
 @ConfigurationProperties
-public class VaultConfiguration {
-    private String mysqlusername;
-    private String mysqlpassword;
+public class EnvironmentConfiguration {
+
+    private String mysql_userName;
+    private String password;
+    private String drivername;
+    private String url;
 }
 */
