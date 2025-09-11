@@ -32,7 +32,7 @@ services:
        #- 8060-8070:7070
         - "7076-7078:7076"
     networks: [bofanetwork]
-    environment:
+    #environment:
       #EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka
 
 
