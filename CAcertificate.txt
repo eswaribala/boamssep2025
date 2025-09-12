@@ -1,0 +1,315 @@
+Here’s a clean, copy-paste step-by-step to:
+
+Generate CA, server, client certs → build PKCS12/JKS
+
+Enable TLS + mTLS on payments-service
+
+Configure orders-service Feign client with its client cert + truststore
+
+Verify with curl (happy path + failure cases)
+
+Default passwords below are changeit. Adjust for prod.
+Hostname we’ll use: payments.local (mapped to 127.0.0.1).
+
+0) Prereqs & layout
+# Tools: openssl + keytool (comes with a JDK)
+openssl version
+keytool -help | head -1
+
+# Workspace
+mkdir -p tls-lab && cd tls-lab
+
+
+We’ll produce these files:
+
+tls-lab/
+  ca.crt  ca.key
+  payments.key payments.csr payments.crt payments.p12  payments-truststore.p12
+  orders.key   orders.csr   orders.crt   orders.p12    orders-truststore.p12
+
+1) Create a Root CA, Server cert, Client cert (OpenSSL)
+1.1 Root CA
+openssl genrsa -out ca.key 4096
+openssl req -x509 -new -key ca.key -sha256 -days 3650 -out ca.crt \
+  -subj "/C=IN/ST=KA/L=Bengaluru/O=Lab/OU=Training/CN=lab-root-ca"
+
+1.2 Server cert (payments-service) with SAN
+
+Create server.cnf:
+
+cat > server.cnf <<'EOF'
+[ req ]
+default_bits = 2048
+prompt = no
+default_md = sha256
+req_extensions = req_ext
+distinguished_name = dn
+[ dn ]
+C = IN
+ST = KA
+L = Bengaluru
+O = Payments
+OU = Engineering
+CN = payments.local
+[ req_ext ]
+subjectAltName = @alt_names
+extendedKeyUsage = serverAuth
+[ alt_names ]
+DNS.1 = payments.local
+DNS.2 = localhost
+IP.1 = 127.0.0.1
+EOF
+
+
+Generate key, CSR, sign:
+
+openssl genrsa -out payments.key 2048
+openssl req -new -key payments.key -out payments.csr -config server.cnf
+openssl x509 -req -in payments.csr -CA ca.crt -CAkey ca.key -CAcreateserial \
+  -out payments.crt -days 825 -sha256 -extfile server.cnf -extensions req_ext
+
+1.3 Client cert (orders-service) for mTLS
+
+Create client.cnf:
+
+cat > client.cnf <<'EOF'
+[ req ]
+default_bits = 2048
+prompt = no
+default_md = sha256
+req_extensions = req_ext
+distinguished_name = dn
+[ dn ]
+C = IN
+ST = KA
+L = Bengaluru
+O = Orders
+OU = Engineering
+CN = orders-client
+[ req_ext ]
+extendedKeyUsage = clientAuth
+EOF
+
+
+Generate key, CSR, sign:
+
+openssl genrsa -out orders.key 2048
+openssl req -new -key orders.key -out orders.csr -config client.cnf
+openssl x509 -req -in orders.csr -CA ca.crt -CAkey ca.key -CAcreateserial \
+  -out orders.crt -days 825 -sha256 -extfile client.cnf -extensions req_ext
+
+
+2) Build PKCS12 keystores & truststores (for Java/Spring)
+2.1 Server keystore + truststore (payments-service)
+# PKCS12 keystore with server private key + cert + CA
+openssl pkcs12 -export \
+  -inkey payments.key -in payments.crt -certfile ca.crt \
+  -name payments -out payments.p12 -passout pass:changeit
+
+# Truststore: trust the CA that signed client certs
+keytool -importcert -noprompt \
+  -alias lab-root-ca -file ca.crt \
+  -keystore payments-truststore.p12 -storetype PKCS12 -storepass changeit
+
+2.2 Client keystore + truststore (orders-service)
+# PKCS12 keystore with client private key + cert + CA
+openssl pkcs12 -export \
+  -inkey orders.key -in orders.crt -certfile ca.crt \
+  -name orders -out orders.p12 -passout pass:changeit
+
+# Truststore: trust the CA that signed the server cert
+keytool -importcert -noprompt \
+  -alias lab-root-ca -file ca.crt \
+  -keystore orders-truststore.p12 -storetype PKCS12 -storepass changeit
+
+
+Need JKS? Convert with:
+
+keytool -importkeystore -srckeystore payments.p12 -srcstoretype PKCS12 -srcstorepass changeit \
+  -destkeystore payments.jks -deststoretype JKS -deststorepass changeit
+keytool -importkeystore -srckeystore orders.p12 -srcstoretype PKCS12 -srcstorepass changeit \
+  -destkeystore orders.jks -deststoretype JKS -deststorepass changeit
+
+3) payments-service: enable TLS + mTLS
+
+Place these files in your app at:
+
+payments-service/src/main/resources/tls/
+  payments.p12
+  payments-truststore.p12
+
+
+payments-service/src/main/resources/application.properties
+
+server.port=8443
+server.ssl.enabled=true
+
+# Server identity
+server.ssl.key-store=classpath:tls/payments.p12
+server.ssl.key-store-password=changeit
+server.ssl.key-store-type=PKCS12
+server.ssl.key-alias=payments
+
+# mTLS: client certificate required
+server.ssl.client-auth=need
+server.ssl.trust-store=classpath:tls/payments-truststore.p12
+server.ssl.trust-store-password=changeit
+server.ssl.trust-store-type=PKCS12
+
+# Tight TLS policy (good defaults)
+server.ssl.enabled-protocols=TLSv1.3,TLSv1.2
+server.ssl.ciphers=TLS_AES_128_GCM_SHA256,TLS_AES_256_GCM_SHA384,TLS_CHACHA20_POLY1305_SHA256,TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+
+spring.application.name=payments-service
+
+
+Minimal controller (optional) to see client DN:
+
+@RestController
+@RequestMapping("/api/payments")
+public class PaymentController {
+  @GetMapping("/ping")
+  public String ping(HttpServletRequest req) {
+    Object attr = req.getAttribute("jakarta.servlet.request.X509Certificate");
+    if (attr instanceof java.security.cert.X509Certificate[] chain && chain.length > 0) {
+      return "ok client=" + chain[0].getSubjectX500Principal().getName();
+    }
+    return "ok";
+  }
+}
+
+4) orders-service: Feign client with client cert
+
+Place these files in:
+
+orders-service/src/main/resources/tls/
+  orders.p12
+  orders-truststore.p12
+
+4.1 Dependencies
+<!-- build.gradle.kts equivalents are fine; using Maven here -->
+<dependency>
+  <groupId>org.springframework.cloud</groupId>
+  <artifactId>spring-cloud-starter-openfeign</artifactId>
+</dependency>
+<dependency>
+  <groupId>io.github.openfeign</groupId>
+  <artifactId>feign-httpclient</artifactId> <!-- Apache HttpClient -->
+</dependency>
+
+
+Ensure Spring Cloud BOM is aligned with your Spring Boot version.
+
+4.2 TLS props (client side)
+
+orders-service/src/main/resources/application.properties
+
+spring.application.name=orders-service
+
+# client identity (orders)
+client.ssl.key-store=classpath:tls/orders.p12
+client.ssl.key-store-password=changeit
+
+# trust server's CA
+client.ssl.trust-store=classpath:tls/orders-truststore.p12
+client.ssl.trust-store-password=changeit
+
+4.3 Feign TLS config (Apache HttpClient)
+@Configuration
+public class FeignTlsConfig {
+  @Value("${client.ssl.key-store}") private Resource keyStoreRes;
+  @Value("${client.ssl.key-store-password}") private String keyPass;
+  @Value("${client.ssl.trust-store}") private Resource trustStoreRes;
+  @Value("${client.ssl.trust-store-password}") private String trustPass;
+
+  @Bean
+  public feign.Client feignClient() throws Exception {
+    KeyStore ks = KeyStore.getInstance("PKCS12");
+    try (var is = keyStoreRes.getInputStream()) { ks.load(is, keyPass.toCharArray()); }
+
+    KeyStore ts = KeyStore.getInstance("PKCS12");
+    try (var is = trustStoreRes.getInputStream()) { ts.load(is, trustPass.toCharArray()); }
+
+    SSLContext ssl = org.apache.http.ssl.SSLContexts.custom()
+        .loadKeyMaterial(ks, keyPass.toCharArray())
+        .loadTrustMaterial(ts, null)
+        .build();
+
+    var sf = new org.apache.http.conn.ssl.SSLConnectionSocketFactory(
+        ssl,
+        new String[]{"TLSv1.3","TLSv1.2"},
+        null,
+        org.apache.http.conn.ssl.SSLConnectionSocketFactory.getDefaultHostnameVerifier());
+
+    CloseableHttpClient httpClient = org.apache.http.impl.client.HttpClients.custom()
+        .setSSLSocketFactory(sf)
+        .build();
+
+    return new feign.httpclient.ApacheHttpClient(httpClient);
+  }
+}
+
+4.4 Feign client + caller
+@FeignClient(
+  name = "paymentsClient",
+  url = "https://payments.local:8443",
+  configuration = FeignTlsConfig.class
+)
+public interface PaymentsClient {
+  @GetMapping("/api/payments/ping")
+  String ping();
+}
+
+@RestController
+@RequiredArgsConstructor
+public class OrdersController {
+  private final PaymentsClient paymentsClient;
+
+  @GetMapping("/orders/ping")
+  public String ping() {
+    return paymentsClient.ping();
+  }
+}
+
+
+Add host mapping (one-time):
+Windows: C:\Windows\System32\drivers\etc\hosts
+Linux/macOS: /etc/hosts
+Append:
+127.0.0.1 payments.local
+
+5) Run & Verify
+5.1 Start services
+
+payments-service on 8443
+
+orders-service on 8080 (default)
+
+5.2 curl tests (server mTLS)
+
+If you don’t add hosts entry, use --resolve:
+
+✅ Happy path (client cert provided, trusted)
+curl --resolve payments.local:8443:127.0.0.1 \
+  --cacert tls-lab/ca.crt \
+  --cert tls-lab/orders.crt --key tls-lab/orders.key \
+  https://payments.local:8443/api/payments/ping
+# -> ok client=CN=orders-client,...
+
+🚫 No client cert (mTLS required)
+curl --resolve payments.local:8443:127.0.0.1 \
+  --cacert tls-lab/ca.crt \
+  https://payments.local:8443/api/payments/ping
+# Expect TLS handshake failure (curl error 56) OR HTTP 403 depending on stack.
+
+🚫 Wrong/mismatched client cert (untrusted)
+# simulate by using a cert not signed by ca.crt (or wrong key with cert)
+curl --resolve payments.local:8443:127.0.0.1 \
+  --cacert tls-lab/ca.crt \
+  --cert some-other.crt --key some-other.key \
+  https://payments.local:8443/api/payments/ping
+# Expect handshake failure / 400/401/403 depending on failure point.
+
+✅ Feign from orders-service
+curl http://localhost:8080/orders/ping
+# -> ok client=CN=orders-client,...

@@ -1,0 +1,23 @@
+(Optional) Pure keytool flow (no OpenSSL)
+
+If you want everything in one command style:
+
+# Server (payments) keypair
+keytool -genkeypair -alias payments -keyalg RSA -keysize 2048 -storetype PKCS12 \
+  -keystore payments.p12 -storepass changeit -dname "CN=payments.local,OU=Engineering,O=Payments,L=Bengaluru,ST=KA,C=IN" \
+  -ext SAN=DNS:payments.local,DNS:localhost,IP:127.0.0.1 -ext KU=digitalSignature,keyEncipherment -ext EKU=serverAuth
+
+# Client (orders) keypair
+keytool -genkeypair -alias orders -keyalg RSA -keysize 2048 -storetype PKCS12 \
+  -keystore orders.p12 -storepass changeit -dname "CN=orders-client,OU=Engineering,O=Orders,L=Bengaluru,ST=KA,C=IN" \
+  -ext KU=digitalSignature,keyEncipherment -ext EKU=clientAuth
+
+# Export public certs
+keytool -export -keystore payments.p12 -storepass changeit -alias payments -rfc -file payments.crt
+keytool -export -keystore orders.p12   -storepass changeit -alias orders   -rfc -file orders.crt
+
+# Root CA not used here; instead mutually trust public certs:
+keytool -importcert -noprompt -alias orders-client -file orders.crt \
+  -keystore payments-truststore.p12 -storetype PKCS12 -storepass changeit
+keytool -importcert -noprompt -alias payments-server -file payments.crt \
+  -keystore orders-truststore.p12 -storetype PKCS12 -storepass changeit
