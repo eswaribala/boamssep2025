@@ -7,11 +7,11 @@ spring:
         - TokenRelay
       routes:
         - id: USERSERVICE
-          uri: http://127.0.0.1:7072
+          uri: http://host.docker.internal:7072
           predicates:
-            - Path=/users/**
+            - Path=/swagger-ui.html, /v3/api-docs/**, /swagger-ui/**,/users/**,/roles/**
           filters:
-            - RemoveRequestHeader=Cookie
+            - RewritePath=/USERSERVICE/(?<segment>.*), /$\\{segment}
   security:
     oauth2:
       client:
