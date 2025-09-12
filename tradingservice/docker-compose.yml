@@ -1,0 +1,38 @@
+version: '3.9'
+
+services:
+
+  trader-consumer-app:
+    image: traderservice
+    build:
+      context: ./
+      dockerfile: dockerfile
+
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 15
+        window: 50s
+    ports:
+       #- 8060-8070:7070
+        #- "7076-7078:7076"
+        - 7078:7078
+   
+    networks: [bofanetwork]
+    
+
+    volumes:
+      - /data/compose-app
+    #networks:
+      #- boanetwork   
+    
+
+### put all the networks here
+#networks:
+  #boanetwork:
+networks:
+  bofanetwork:
+    external: true
+
+  
