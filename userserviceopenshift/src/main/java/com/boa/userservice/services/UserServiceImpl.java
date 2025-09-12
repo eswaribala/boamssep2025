@@ -9,9 +9,7 @@ import com.boa.userservice.models.Role;
 import com.boa.userservice.models.User;
 import com.boa.userservice.repositories.RoleRepository;
 import com.boa.userservice.repositories.UserRepository;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jmx.export.notification.UnableToSendNotificationException;
@@ -21,7 +19,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 
@@ -34,9 +31,6 @@ public class UserServiceImpl implements UserService {
     private RoleRepository roleRepository;
 
 
-
-    @Value("${topicName}")
-    private String topicName;
 
     @Override
     public User createUser(CreateUserRequest createUserRequest) {
