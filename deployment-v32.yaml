@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: userdeploy
+  name: userdeploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: userdeploy
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: userdeploy
+    spec:
+      containers:
+      - image: eswaribala/boasep2025:userservice
+        name: userapp
+        resources: {}          
+        
+        env:
+            - name: MYSQL_URL
+              value: jdbc:mysql://mysql:3306/boatraderproddb?useSSL=false
+            - name: OTEL_EXPORTER_JAEGER_ENDPOINT
+              value: "http://localhost:14250"
+            - name: OTEL_SERVICE_NAME
+              value: "patientapi"
+            - name: OTEL_TRACES_SAMPLER
+              value: "always_on"
+      #imagePullSecrets:  
+      #- name: globalaks-key
+
+status: {}
+--- 
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: userservice
+  name: userservice
+spec:
+    
+  ports:
+  - protocol: TCP
+    port: 7076
+    targetPort: 7076
+    name: http
+  
+  selector:
+    app: userdeploy
+  type: LoadBalancer
+
