@@ -20,7 +20,7 @@ services:
         - 7078:7078
    
     networks: [bofanetwork]
-    
+
 
     volumes:
       - /data/compose-app
