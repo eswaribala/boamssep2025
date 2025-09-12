@@ -3,6 +3,10 @@ package com.boa.userservice.controllers;
 import com.boa.userservice.dtos.*;
 import com.boa.userservice.models.Role;
 import com.boa.userservice.services.RoleService;
+import io.micrometer.observation.annotation.Observed;
+import io.opentelemetry.api.GlobalOpenTelemetry;
+import io.opentelemetry.api.trace.Span;
+import io.opentelemetry.api.trace.Tracer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +19,7 @@ import java.util.List;
 @RestController
 @RequestMapping("roles")
 public class RoleController {
+    private final Tracer tracer = GlobalOpenTelemetry.getTracer("demoTracer");
 
     private static final Logger logger = LoggerFactory.getLogger(RoleController.class);
     @Autowired
@@ -23,12 +28,17 @@ public class RoleController {
     private UserMapper  userMapper;
 
     @PostMapping("/v1.0")
+    @Observed(name = "roles.create", contextualName = "create-role")
     public ResponseEntity<GenericResponse> addRole(@RequestBody CreateRoleRequest createRoleRequest) {
 
         Role role=this.roleService.createRole(createRoleRequest);
+        Span span = tracer.spanBuilder("hello-span").startSpan();
+
+
         RoleDTO roleDTO=null;
         if(role!=null){
             roleDTO=userMapper.toDTO(role);
+            span.setAttribute("custom.attribute", "value");
             return ResponseEntity.status(HttpStatus.CREATED).body(new GenericResponse(roleDTO));
         }else
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new GenericResponse("Role not created"));
@@ -38,6 +48,7 @@ public class RoleController {
 
 
     @GetMapping("/v1.0")
+    @Observed(name = "roles.list", contextualName = "list-roles")
     public ResponseEntity<GenericResponse> getRoles(){
 
         List<Role> roles=this.roleService.getRoles();

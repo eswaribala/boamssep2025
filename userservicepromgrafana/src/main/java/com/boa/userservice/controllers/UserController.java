@@ -4,6 +4,7 @@ import com.boa.userservice.dtos.*;
 import com.boa.userservice.models.Role;
 import com.boa.userservice.models.User;
 import com.boa.userservice.services.UserService;
+import io.micrometer.observation.annotation.Observed;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,7 @@ public class UserController {
     private UserMapper userMapper;
 
     @PostMapping("/v1.0")
+    @Observed(name = "users.list", contextualName = "list-users")
     public ResponseEntity<GenericResponse> addUser(@RequestBody CreateUserRequest  createUserRequest){
         User user=this.userService.createUser(createUserRequest);
         if(user!=null){
@@ -37,6 +39,7 @@ public class UserController {
     }
 
     @GetMapping("/v1.0")
+    @Observed(name = "users.list", contextualName = "list-users")
     public ResponseEntity<GenericResponse> getUsers(){
 
         List<User> users=this.userService.getAllUsers();

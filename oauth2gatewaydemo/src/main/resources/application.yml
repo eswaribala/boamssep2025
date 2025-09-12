@@ -6,10 +6,10 @@ spring:
       default-filters:
         - TokenRelay
       routes:
-        - id: CustomerAPI
-          uri: http://127.0.0.1:7074
+        - id: USERSERVICE
+          uri: http://127.0.0.1:7072
           predicates:
-            - Path=/individualcustomers/**
+            - Path=/users/**
           filters:
             - RemoveRequestHeader=Cookie
   security:
@@ -22,16 +22,16 @@ spring:
             userinfo-uri: http://localhost:7070/auth/realms/master/protocol/openid-connect/userinfo
             user-name-attribute: preferred_username
         registration:
-          keycloak-with-developer-scope:
+          keycloak-with-sre-scope:
             provider: keycloak
-            client-id: user1
-            client-secret: yZsq8o69lqt3JVJgAqFDw7ZOgJQMFn1I
+            client-id: user3
+            client-secret: aA9lTeard5DgfAfnTii1Lu38l6z3SCO7
             authorization-grant-type: authorization_code
             redirect-uri: "{baseUrl}/login/oauth2/code/keycloak"
-          keycloak-with-test-scope:
+          keycloak-with-architect-scope:
             provider: keycloak
-            client-id: user2
-            client-secret: 2LBiK2qg28hk6uKkqeIzCRktcLbyyN0Q
+            client-id: user4
+            client-secret: So39DejcXFMSiv2WN4IRR8I3hyG5nt0l
             authorization-grant-type: authorization_code
             redirect-uri: "{baseUrl}/login/oauth2/code/keycloak"
   securitySchemes:
