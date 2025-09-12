@@ -3,11 +3,8 @@ package com.boa.userservice.services;
 import com.boa.userservice.dtos.CreateUserRequest;
 import com.boa.userservice.dtos.UpdateUserRequestDTO;
 import com.boa.userservice.models.User;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import org.springframework.kafka.support.SendResult;
 
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 public interface UserService {
 
@@ -16,9 +13,6 @@ public interface UserService {
     User getUserById(String id);
     boolean deleteUserById(String id);
     User updateUser(UpdateUserRequestDTO updateUserRequestDTO);
-
-    CompletableFuture<SendResult<String,Object>> publishUserInfo(User user) throws JsonProcessingException;
-
 
 
 }

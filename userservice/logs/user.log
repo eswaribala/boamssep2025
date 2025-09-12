@@ -9,3 +9,14 @@
 2025-09-12 10:51:54.695 INFO  [http-nio-7072-exec-9] c.b.u.controllers.RoleController - ***: []
 2025-09-12 10:55:03.894 DEBUG [http-nio-7072-exec-10] c.b.u.controllers.RoleController - ***: []
 2025-09-12 10:55:03.894 INFO  [http-nio-7072-exec-10] c.b.u.controllers.RoleController - ***: []
+2025-09-12 11:19:44.746 INFO  [main] c.b.u.UserserviceApplication - *** ******on *** java 21.0.5 with pid 34508 (e:\***2025ws\***e\***\*** *** by *** in e:\***2025ws\***e)
+2025-09-12 11:19:44.752 DEBUG [main] c.b.u.UserserviceApplication - *** with *** boot v3.3.4, *** v6.1.13
+2025-09-12 11:19:44.753 INFO  [main] c.b.u.UserserviceApplication - the *** 1 *** is ***: "dev"
+2025-09-12 11:20:03.923 INFO  [main] c.b.u.UserserviceApplication - *** ******on in 19.956 *** (*** *** for 21.221)
+2025-09-12 11:22:18.599 INFO  [main] c.b.u.UserserviceApplication - *** ******on *** java 21.0.5 with pid 16476 (e:\***2025ws\***e\***\*** *** by *** in e:\***2025ws\***e)
+2025-09-12 11:22:18.602 DEBUG [main] c.b.u.UserserviceApplication - *** with *** boot v3.3.4, *** v6.1.13
+2025-09-12 11:22:18.603 INFO  [main] c.b.u.UserserviceApplication - the *** 1 *** is ***: "dev"
+2025-09-12 11:28:40.054 DEBUG [http-nio-7072-exec-4] c.b.u.controllers.RoleController - ***: []
+2025-09-12 11:28:40.054 INFO  [http-nio-7072-exec-4] c.b.u.controllers.RoleController - ***: []
+2025-09-12 11:30:28.461 DEBUG [http-nio-7072-exec-4] c.b.u.controllers.RoleController - ***: []
+2025-09-12 11:30:28.462 INFO  [http-nio-7072-exec-4] c.b.u.controllers.RoleController - ***: []

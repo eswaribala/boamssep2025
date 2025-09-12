@@ -4,7 +4,6 @@ import com.boa.userservice.dtos.*;
 import com.boa.userservice.models.Role;
 import com.boa.userservice.models.User;
 import com.boa.userservice.services.UserService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import io.micrometer.observation.annotation.Observed;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 @RestController
 @RequestMapping("users")
@@ -28,7 +26,7 @@ public class UserController {
     private UserMapper userMapper;
 
     @PostMapping("/v1.0")
-
+    @Observed(name = "users.list", contextualName = "list-users")
     public ResponseEntity<GenericResponse> addUser(@RequestBody CreateUserRequest  createUserRequest){
         User user=this.userService.createUser(createUserRequest);
         if(user!=null){
@@ -41,7 +39,7 @@ public class UserController {
     }
 
     @GetMapping("/v1.0")
-
+    @Observed(name = "users.list", contextualName = "list-users")
     public ResponseEntity<GenericResponse> getUsers(){
 
         List<User> users=this.userService.getAllUsers();
@@ -59,25 +57,6 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.OK).body(new GenericResponse(userDTOs));
         }else
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new GenericResponse("users not found"));
-
-
-    }
-
-    @GetMapping("/v1.0/publish/{userId}")
-
-    public CompletableFuture<ResponseEntity<String>> publishUserData(@PathVariable("userId") String userId) throws JsonProcessingException {
-
-         User user= userService.getUserById(userId);
-         if(user!=null){
-             return userService.publishUserInfo(user)
-                     .thenApply(result->ResponseEntity.status(HttpStatus.OK)
-                             .body(result.getRecordMetadata().topic()+","+result.getRecordMetadata().partition()+","+result.getRecordMetadata().offset()))
-                     .exceptionally(ex-> {
-                         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ex.getMessage());
-                     });
-
-         }
-         return null;
 
 
     }

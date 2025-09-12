@@ -9,20 +9,12 @@ import com.boa.userservice.models.Role;
 import com.boa.userservice.models.User;
 import com.boa.userservice.repositories.RoleRepository;
 import com.boa.userservice.repositories.UserRepository;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jmx.export.notification.UnableToSendNotificationException;
-import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 
@@ -34,11 +26,6 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private RoleRepository roleRepository;
 
-    @Autowired
-    private KafkaTemplate<String, Object> kafkaTemplate;
-
-    @Value("${topicName}")
-    private String topicName;
 
     @Override
     public User createUser(CreateUserRequest createUserRequest) {
@@ -122,14 +109,5 @@ public class UserServiceImpl implements UserService {
             return  this.userRepository.save(user);
         }else
             throw new UserNotFoundExcepion(updateUserRequestDTO.getUserId());
-    }
-
-    @Override
-    public CompletableFuture<SendResult<String, Object>> publishUserInfo(User user) throws JsonProcessingException {
-        ObjectWriter ow = new ObjectMapper().writer();
-        String json= ow.writeValueAsString(user);
-
-        return kafkaTemplate.send(topicName,json);
-
     }
 }
