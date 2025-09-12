@@ -3,15 +3,18 @@ spring:
     name: gateway
   cloud:
     gateway:
-      default-filters:
-        - TokenRelay
+      #default-filters:
+        #- TokenRelay
       routes:
         - id: USERSERVICE
-          uri: http://host.docker.internal:7072
+          uri: http://localhost:7072
           predicates:
             - Path=/swagger-ui.html, /v3/api-docs/**, /swagger-ui/**,/users/**,/roles/**
           filters:
             - RewritePath=/USERSERVICE/(?<segment>.*), /$\\{segment}
+      discovery:
+        locator:
+          enabled: true
   security:
     oauth2:
       client:
