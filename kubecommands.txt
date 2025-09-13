@@ -9,6 +9,9 @@ kubctl apply -f postgres-pv.yaml
 kubectl apply -f postgres-deployment.yaml
 
 #to check mysql client
+
+kubectl exec -it mysql-app-6c557f5484-b6527 -- bin/bash
+
 #mysql client creation
 kubectl run -it --rm --image=mysql --restart=Never mysql-client -- mysql -h mysql -ppassword
 #alternative approach to access mysql client
